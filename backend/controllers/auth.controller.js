@@ -1,6 +1,7 @@
 import User from '../models/user.model.js'
 import bcryptjs from 'bcryptjs'
 import { generateTokenAndSetCookie } from '../utils/generateToken.js'
+
 export async function signup(req, res) {
   try {
     const { email, password, username } = req.body
@@ -10,7 +11,7 @@ export async function signup(req, res) {
         message: 'All fields are required',
       })
     }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(email)) {
       return res.status(400).json({ success: false, message: 'Invalid email' })
@@ -54,6 +55,7 @@ export async function signup(req, res) {
     })
     generateTokenAndSetCookie(newUser._id, res)
     await newUser.save()
+    
     return res.status(200).json({
       success: true,
       user: {
